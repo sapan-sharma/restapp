@@ -33,6 +33,9 @@ import java.net.MalformedURLException;
 import java.net.HttpURLConnection;
 import java.util.*;
 
+//sapan: add exceptions every 1 out of 500 times
+import java.util.Random;
+
 @CrossOrigin
 @RestController
 public class GreetingController {
@@ -182,36 +185,11 @@ public class GreetingController {
 	@RequestMapping("/catcount")
 	public String catCount() {
 		String result="{ \"catCount\": 0 }";
-		/*Code for Architectural Regression, prerequisite is to have restapp running on k8 pod */
-		/*try{
-			for (int i=0; i<=1000; i++)
-			{
-				URL url = new URL("http://35.192.98.201:8080/catcount");
-				HttpURLConnection con = (HttpURLConnection)url.openConnection();
-				con.setRequestMethod("GET");
-				con.setDoOutput(true);
-				con.setInstanceFollowRedirects(false);
-				
-				System.out.println("con.getResponseCode() ::"+con.getResponseCode());
-				System.out.println(con.getResponseMessage());
-				
-				BufferedReader br2 = new BufferedReader(new InputStreamReader(con.getInputStream()));
-				String response2; StringBuffer res2 = new StringBuffer();
-				while ((response2=br2.readLine())!=null)
-					res2.append(response2);
-					
-				System.out.println(res2);
-				if (!res2.toString().isEmpty())
-					result=res2.toString();
-			}
-			
-		}catch(MalformedURLException mue){
-			mue.printStackTrace();
-		}catch(IOException io){
-			io.printStackTrace();
-		}
-		/* till here */
-		
+		//sapan: add exceptions every 1 out of 500 times
+		Random rand = new Random();
+		int  n = rand.nextInt(500);
+		if (n == 349)
+			throw new ArithmeticException("probablity of this exception: 1/500");
 	      return result;
 	}
 	
